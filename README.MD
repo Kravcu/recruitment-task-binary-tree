@@ -17,7 +17,8 @@ mean and median in full tree or specified subtree. Apart from that we can also p
 
 Error handling is included for calculating mean/median from an empty tree(i.e. where the root in tree is None or has a
 single Node with None value) - exception is raised. Situations where there is a loop in the tree (i.e. the tree is a
-graph and not a tree) are considered - the node will be taken into calculations only once.
+graph and not a tree) are considered - the node will be taken into calculations only once. Loop detection is based on
+the UUID of Node objects created with `uuid` module.
 
 The graph traversal is implemented using iterative DFS algorithm.
 
@@ -86,5 +87,8 @@ pytest==6.1.2
 
 1. I am using different types of type hints in code(Unions) and docstrings(pipes |). Pycharms has a problem rendering
    Unions in docstrings and then complains about wrong type, so I used pipes to fix that.
+2. I decided to implement the check for loops in binary tree although by definition a binary tree with loop is not a
+   binary tree. If we assumed that every created tree will be properly created, we could save on the memory complexity
+   by removing the check.
 
 
