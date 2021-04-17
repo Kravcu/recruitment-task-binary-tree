@@ -99,3 +99,9 @@ def test_Tree_RaisesStatisticsErrorOnEmptyTree(a):
     with pytest.raises(statistics.StatisticsError):
         t.get_median(full_tree=True)
         t.get_mean(full_tree=True)
+
+
+def test_Tree_HandlesLoops():
+    a = Node(5)
+    t = Tree(Node(3, Node(3, a), a))
+    assert t.get_sum(full_tree=True) == 11, "Incorrect sum"

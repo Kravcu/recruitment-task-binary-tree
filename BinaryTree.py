@@ -9,6 +9,10 @@ class IllegalArgumentCombinationError(Exception):
 
 
 class Node:
+    """
+    Binary Tree Node
+    """
+
     def __init__(self, value, left_branch=None, right_branch=None):
         if not self.__is_correct_arg(value, int):
             raise TypeError("Expected 'value' to be instance of 'int' or None")
@@ -47,14 +51,22 @@ class Node:
 
 
 class Tree:
+    """
+    Binary tree consisting of Nodes with detection of loops (given node is used for calculation only once).
+    """
+
     def __init__(self, root_node: Union[Node, None]):
         if not (root_node is None or isinstance(root_node, Node)):
             raise TypeError('Root node has to be an instance of Node or None')
-        self.root: Union[Node, None] = root_node
+        self._root: Union[Node, None] = root_node
+
+    @property
+    def root(self):
+        return self._root
 
     def __print_tree_recursive(self, node, level=0) -> None:
         """
-        Recurisve function to print tree
+        Recursive function to print tree
         Args:
             node (Node|None): currently visited node
             level (int): indentation level
@@ -62,9 +74,10 @@ class Tree:
         Returns:
             None
         """
+        spacing: int = 4
         if node is not None:
             self.__print_tree_recursive(node.left, level + 1)
-            print(' ' * 4 * level, node.value)
+            print(' ' * spacing * level, node.value)
             self.__print_tree_recursive(node.right, level + 1)
 
     def print_tree(self, full_tree: bool = True, node=None) -> None:
@@ -105,14 +118,17 @@ class Tree:
         nodes_to_check = deque()
         nodes_to_check.append(node)
         node_values = deque()
+        visited = set()
         while len(nodes_to_check):
-            current_node = nodes_to_check.popleft()
-            if current_node.value is not None:
-                node_values.append(current_node.value)
-            if current_node.left is not None:
-                nodes_to_check.append(current_node.left)
-            if current_node.right is not None:
-                nodes_to_check.append(current_node.right)
+            current_node = nodes_to_check.pop()
+            if current_node not in visited:
+                visited.add(current_node)
+                if current_node.value is not None:
+                    node_values.append(current_node.value)
+                if current_node.left is not None:
+                    nodes_to_check.append(current_node.left)
+                if current_node.right is not None:
+                    nodes_to_check.append(current_node.right)
         return node_values
 
     def get_sum(self, full_tree: bool = True, sub_tree=None) -> float:
@@ -170,3 +186,18 @@ class Tree:
             return statistics.median(self.__get_subtree_values(sub_tree))
         except statistics.StatisticsError:
             raise statistics.StatisticsError('Cannot calculate median from an empty Tree')
+
+
+t = Node(5, Node(3, Node(2), Node(5)), Node(7, Node(1), Node(0, Node(2), Node(8, None, Node(5)))))
+tree = Tree(t)
+print("Full tree:")
+tree.print_tree(True)
+print("Subtree:")
+tree.print_tree(False, tree.root.right)
+print()
+print("Sum of full tree: ", tree.get_sum(True))
+print("Sum of subtree: ", tree.get_sum(False, tree.root.right))
+print("Mean of full tree: ", tree.get_mean(True))
+print("Mean of subtree: ", tree.get_mean(False, tree.root.right))
+print("Median of full tree: ", tree.get_median(True))
+print("Median of subtree: ", tree.get_median(False, tree.root.right))
