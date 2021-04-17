@@ -1,6 +1,7 @@
 from typing import Union
 from collections import deque
 import statistics
+import uuid
 
 
 class IllegalArgumentCombinationError(Exception):
@@ -24,6 +25,7 @@ class Node:
         self._left_child: Union[Node, None] = left_branch
         self._right_child: Union[Node, None] = right_branch
         self._root: Union[None, int] = value
+        self._id: str = str(uuid.uuid4())
 
     def __is_correct_arg(self, arg, cls) -> bool:
         """
@@ -48,6 +50,10 @@ class Node:
     @property
     def right(self):
         return self._right_child
+
+    @property
+    def id(self):
+        return self._id
 
 
 class Tree:
@@ -121,8 +127,8 @@ class Tree:
         visited = set()
         while len(nodes_to_check):
             current_node = nodes_to_check.pop()
-            if current_node not in visited:
-                visited.add(current_node)
+            if current_node.id not in visited:
+                visited.add(current_node.id)
                 if current_node.value is not None:
                     node_values.append(current_node.value)
                 if current_node.left is not None:
@@ -186,18 +192,3 @@ class Tree:
             return statistics.median(self.__get_subtree_values(sub_tree))
         except statistics.StatisticsError:
             raise statistics.StatisticsError('Cannot calculate median from an empty Tree')
-
-
-t = Node(5, Node(3, Node(2), Node(5)), Node(7, Node(1), Node(0, Node(2), Node(8, None, Node(5)))))
-tree = Tree(t)
-print("Full tree:")
-tree.print_tree(True)
-print("Subtree:")
-tree.print_tree(False, tree.root.right)
-print()
-print("Sum of full tree: ", tree.get_sum(True))
-print("Sum of subtree: ", tree.get_sum(False, tree.root.right))
-print("Mean of full tree: ", tree.get_mean(True))
-print("Mean of subtree: ", tree.get_mean(False, tree.root.right))
-print("Median of full tree: ", tree.get_median(True))
-print("Median of subtree: ", tree.get_median(False, tree.root.right))
