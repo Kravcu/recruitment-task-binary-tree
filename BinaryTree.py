@@ -1,7 +1,6 @@
 from typing import Union
 from collections import deque
 import statistics
-import uuid
 
 
 class IllegalArgumentCombinationError(Exception):
@@ -25,7 +24,6 @@ class Node:
         self._left_child: Union[Node, None] = left_branch
         self._right_child: Union[Node, None] = right_branch
         self._root: Union[None, int] = value
-        self._id: str = str(uuid.uuid4())
 
     def __is_correct_arg(self, arg, cls) -> bool:
         """
@@ -50,10 +48,6 @@ class Node:
     @property
     def right(self):
         return self._right_child
-
-    @property
-    def id(self):
-        return self._id
 
 
 class Tree:
@@ -97,7 +91,7 @@ class Tree:
             None
 
         Raises:
-            TypeError: when full_tree is false and specified subtree is None or instance of Node clas
+            TypeError: when full_tree is false and specified subtree is None or instance of Node class
         """
         if full_tree:
             node = self.root
@@ -127,8 +121,8 @@ class Tree:
         visited = set()
         while len(nodes_to_check):
             current_node = nodes_to_check.pop()
-            if current_node.id not in visited:
-                visited.add(current_node.id)
+            if id(current_node) not in visited:
+                visited.add(id(current_node))
                 if current_node.value is not None:
                     node_values.append(current_node.value)
                 if current_node.left is not None:
