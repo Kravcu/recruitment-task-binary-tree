@@ -12,7 +12,7 @@ import pytest
     (5, Node(1), Node(2)),
 ])
 def test_Node_NoExceptionWhenCorrectValuesOnInit(a, b, c):
-    node = Node(a, b, c)
+    _ = Node(a, b, c)
 
 
 @pytest.mark.parametrize("a,b,c", [
@@ -29,7 +29,7 @@ def test_Node_NoExceptionWhenCorrectValuesOnInit(a, b, c):
 ])
 def test_Node_RaisesTypeErrorWhenInvalidChildrenOnInit(a, b, c):
     with pytest.raises(TypeError):
-        node = Node(a, b, c)
+        _ = Node(a, b, c)
 
 
 @pytest.mark.parametrize("a,b,c", [
@@ -38,7 +38,7 @@ def test_Node_RaisesTypeErrorWhenInvalidChildrenOnInit(a, b, c):
 ])
 def test_Node_RaisesIllegalArgumentCombinationErrorOnInit(a, b, c):
     with pytest.raises(IllegalArgumentCombinationError):
-        node = Node(a, b, c)
+        _ = Node(a, b, c)
 
 
 @pytest.mark.parametrize("a,b,c", [
@@ -56,13 +56,13 @@ def test_Node_AssignsCorrectValuesOnInit(a, b, c):
 
 
 @pytest.mark.parametrize("a", [
-    ('foo'),
-    (1),
+    'foo',
+    1,
     ([])
 ])
 def test_Tree_RaisesTypeErrorWhenInvalidRootOnInit(a):
     with pytest.raises(TypeError):
-        tree = Tree(a)
+        _ = Tree(a)
 
 
 @pytest.mark.parametrize("tree,tree_sum,tree_avg,tree_median", [
@@ -90,7 +90,7 @@ def test_Tree_CalculateValuesSubTree(tree, tree_sum, tree_avg, tree_median):
 
 
 @pytest.mark.parametrize("a", [
-    (None),
+    None,
     (Node(None))
 ])
 def test_Tree_RaisesStatisticsErrorOnEmptyTree(a):
