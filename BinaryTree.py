@@ -10,7 +10,7 @@ class IllegalArgumentCombinationError(Exception):
 
 class Node:
     """
-    Binary Tree Node
+        Represents single Node of a binary tree. Has an optional int value and two optional nested Node children.
     """
 
     def __init__(self, value, left_branch=None, right_branch=None):
@@ -52,7 +52,7 @@ class Node:
 
 class Tree:
     """
-    Binary tree consisting of Nodes with detection of loops (given node is used for calculation only once).
+        Represents binary tree consisting of nested Nodes objects.
     """
 
     def __init__(self, root_node: Union[Node, None]):
@@ -102,9 +102,10 @@ class Tree:
 
     def __get_subtree_values(self, node=None) -> deque:
         """
-        Function to traverse all the nodes in tree and return their values. It assumes that the tree will cont
-        contain loops. It implements iterative DFS algo to traverse all nodes and gather their values in a deque(
-        which has O(1) append time unlike list which has O(n)).
+        Function to traverse all the nodes in tree and return their values.
+        It implements iterative DFS algo to traverse all nodes and gather their values in a deque(which has O(1) append
+         time unlike list which has O(n)).
+         Every node is checked against the visited list to make sure there are no duplicated values.
 
         Args:
             node (Node|None):
@@ -133,7 +134,7 @@ class Tree:
 
     def get_sum(self, full_tree: bool = True, sub_tree=None) -> float:
         """
-        Calculate sum of elements in a tree
+        Calculates sum of elements in a tree. Each value in a tree is used for calculation only once.
         Args:
             full_tree (bool): if True  self.root tree is used for calculation, else tree specified by sub_tree
             sub_tree (Node|None): subtree to use for calculation if full_tree is False
@@ -147,7 +148,7 @@ class Tree:
 
     def get_mean(self, full_tree: bool = True, sub_tree=None) -> float:
         """
-        Calculate mean of elements in a tree
+        Calculates mean of elements in a tree. Each value in a tree is used for calculation only once.
         Args:
             full_tree (bool): if True  self.root tree is used for calculation, else tree specified by sub_tree
             sub_tree (Node|None): subtree to use for calculation if full_tree is False
@@ -168,7 +169,7 @@ class Tree:
 
     def get_median(self, full_tree: bool = True, sub_tree=None) -> float:
         """
-        Calculate median of elements in a tree
+        Calculates median of elements in a tree. Each value in a tree is used for calculation only once.
         Args:
             full_tree (bool): if True  self.root tree is used for calculation, else tree specified by sub_tree
             sub_tree (Node|None): subtree to use for calculation if full_tree is False
