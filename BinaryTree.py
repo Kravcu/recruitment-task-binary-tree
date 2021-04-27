@@ -14,9 +14,9 @@ class Node:
     """
 
     def __init__(self, value, left_branch=None, right_branch=None):
-        if not self.__is_correct_arg(value, int):
+        if not self._is_correct_arg(value, int):
             raise TypeError("Expected 'value' to be instance of 'int' or None")
-        if not self.__is_correct_arg(left_branch, Node) or not self.__is_correct_arg(right_branch, Node):
+        if not self._is_correct_arg(left_branch, Node) or not self._is_correct_arg(right_branch, Node):
             raise TypeError("Expected 'left_branch, right_branch' to be instance of 'Node' or None")
         if value is None and (left_branch is not None or right_branch is not None):
             raise IllegalArgumentCombinationError("Node children cannot exist if root is None")
@@ -25,7 +25,7 @@ class Node:
         self._right_child: Union[Node, None] = right_branch
         self._root: Union[None, int] = value
 
-    def __is_correct_arg(self, arg, cls) -> bool:
+    def _is_correct_arg(self, arg, cls) -> bool:
         """
         Function to check if argument is None or instance of cls
         Args:
@@ -64,7 +64,7 @@ class Tree:
     def root(self):
         return self._root
 
-    def __print_tree_recursive(self, node, level=0) -> None:
+    def _print_tree_recursive(self, node, level=0) -> None:
         """
         Recursive function to print tree
         Args:
@@ -76,9 +76,9 @@ class Tree:
         """
         spacing: int = 4
         if node is not None:
-            self.__print_tree_recursive(node.left, level + 1)
+            self._print_tree_recursive(node.left, level + 1)
             print(' ' * spacing * level, node.value)
-            self.__print_tree_recursive(node.right, level + 1)
+            self._print_tree_recursive(node.right, level + 1)
 
     def print_tree(self, full_tree: bool = True, node=None) -> None:
         """
@@ -98,9 +98,9 @@ class Tree:
         else:
             if node is not None and not isinstance(node, Node):
                 raise TypeError
-        self.__print_tree_recursive(node)
+        self._print_tree_recursive(node)
 
-    def __get_subtree_values(self, node=None) -> deque:
+    def _get_subtree_values(self, node=None) -> deque:
         """
         Function to traverse all the nodes in tree and return their values.
         It implements iterative DFS algo to traverse all nodes and gather their values in a deque(which has O(1) append
@@ -144,7 +144,7 @@ class Tree:
         """
         if full_tree:
             sub_tree = self.root
-        return sum(self.__get_subtree_values(sub_tree))
+        return sum(self._get_subtree_values(sub_tree))
 
     def get_mean(self, full_tree: bool = True, sub_tree=None) -> float:
         """
@@ -163,7 +163,7 @@ class Tree:
         if full_tree:
             sub_tree = self.root
         try:
-            return statistics.mean(self.__get_subtree_values(sub_tree))
+            return statistics.mean(self._get_subtree_values(sub_tree))
         except statistics.StatisticsError:
             raise statistics.StatisticsError('Cannot calculate mean from an empty Tree')
 
@@ -184,6 +184,6 @@ class Tree:
         if full_tree:
             sub_tree = self.root
         try:
-            return statistics.median(self.__get_subtree_values(sub_tree))
+            return statistics.median(self._get_subtree_values(sub_tree))
         except statistics.StatisticsError:
             raise statistics.StatisticsError('Cannot calculate median from an empty Tree')
